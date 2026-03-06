@@ -1,0 +1,21 @@
+{
+  "weixin": {
+    "appid": "wx6c09393281a97c88",
+    "secret": "4afe55d503ee9f8070fc641e0b110b97"
+  },
+  "ai_provider": "doubao",
+  "doubao": {
+    "api_key": "YOUR_DOUBAO_API_KEY",
+    "model": "doubao-pro-32k",
+    "api_url": "https://ark.cn-beijing.volces.com/api/v3/chat/completions"
+  },
+  "yuanbao": {
+    "api_key": "YOUR_YUANBAO_API_KEY",
+    "model": "yuanbao-turbo",
+    "api_url": "https://api.yuanbao.tencent.com/v1/chat/completions"
+  },
+  "article": {
+    "max_words": 2000,
+    "category": "AI科技"
+  }
+}
