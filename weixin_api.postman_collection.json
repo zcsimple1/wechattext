@@ -1,0 +1,181 @@
+{
+  "info": {
+    "name": "微信公众号API",
+    "description": "微信公众号草稿箱相关API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "appid",
+      "value": "wx6c09393281a97c88"
+    },
+    {
+      "key": "secret",
+      "value": "4afe55d503ee9f8070fc641e0b110b97"
+    },
+    {
+      "key": "access_token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. 获取access_token",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={{appid}}&secret={{secret}}",
+          "protocol": "https",
+          "host": ["api", "weixin", "qq", "com"],
+          "path": ["cgi-bin", "token"],
+          "query": [
+            { "key": "grant_type", "value": "client_credential" },
+            { "key": "appid", "value": "{{appid}}" },
+            { "key": "secret", "value": "{{secret}}" }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "if (jsonData.access_token) {",
+              "    pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+              "    console.log(\"access_token: \" + jsonData.access_token);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. 获取草稿列表",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "https://api.weixin.qq.com/cgi-bin/draft/batchget?access_token={{access_token}}",
+          "protocol": "https",
+          "host": ["api", "weixin", "qq", "com"],
+          "path": ["cgi-bin", "draft", "batchget"],
+          "query": [
+            { "key": "access_token", "value": "{{access_token}}" }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"offset\": 0,\n    \"count\": 10,\n    \"no_content\": 0\n}"
+        }
+      }
+    },
+    {
+      "name": "3. 上传永久素材(封面图)",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token={{access_token}}&type=thumb",
+          "protocol": "https",
+          "host": ["api", "weixin", "qq", "com"],
+          "path": ["cgi-bin", "material", "add_material"],
+          "query": [
+            { "key": "access_token", "value": "{{access_token}}" },
+            { "key": "type", "value": "thumb" }
+          ]
+        },
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "media",
+              "type": "file",
+              "src": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. 创建草稿",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "https://api.weixin.qq.com/cgi-bin/draft/add?access_token={{access_token}}",
+          "protocol": "https",
+          "host": ["api", "weixin", "qq", "com"],
+          "path": ["cgi-bin", "draft", "add"],
+          "query": [
+            { "key": "access_token", "value": "{{access_token}}" }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"articles\": [\n        {\n            \"title\": \"AI技术发展趋势分析\",\n            \"author\": \"AI助手\",\n            \"digest\": \"本文分析AI技术发展趋势\",\n            \"content\": \"<h2>AI技术发展趋势分析</h2><p>随着人工智能技术的快速发展,我们正迎来一个全新的AI时代。</p>\",\n            \"content_source_url\": \"\",\n            \"thumb_media_id\": \"请替换为上传封面图返回的media_id\",\n            \"show_cover_pic\": 1,\n            \"need_open_comment\": 0,\n            \"only_fans_can_comment\": 0\n        }\n    ]\n}"
+        }
+      }
+    },
+    {
+      "name": "5. 获取单个草稿内容",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "https://api.weixin.qq.com/cgi-bin/draft/get?access_token={{access_token}}",
+          "protocol": "https",
+          "host": ["api", "weixin", "qq", "com"],
+          "path": ["cgi-bin", "draft", "get"],
+          "query": [
+            { "key": "access_token", "value": "{{access_token}}" }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"media_id\": \"请替换为草稿的media_id\"\n}"
+        }
+      }
+    },
+    {
+      "name": "6. 删除草稿",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "https://api.weixin.qq.com/cgi-bin/draft/delete?access_token={{access_token}}",
+          "protocol": "https",
+          "host": ["api", "weixin", "qq", "com"],
+          "path": ["cgi-bin", "draft", "delete"],
+          "query": [
+            { "key": "access_token", "value": "{{access_token}}" }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"media_id\": \"请替换为草稿的media_id\"\n}"
+        }
+      }
+    }
+  ]
+}

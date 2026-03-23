@@ -8,8 +8,8 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from ai_generator import AIContentGenerator
-from weixin_client import WeixinClient
+from core.ai_generator import AIContentGenerator
+from core.weixin_client import WeixinClient
 
 
 def load_config(config_path: str = "config.json") -> dict:
